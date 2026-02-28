@@ -1,16 +1,16 @@
 //`ifndef APB_TEST
 //`define APB_TEST
-`include "/home/dvft0901/apb_sv_project/test/apb_write_read_test.sv"
-`include "/home/dvft0901/apb_sv_project/test/apb_write_test.sv"
-`include "/home/dvft0901/apb_sv_project/test/apb_read_test.sv"
-`include "/home/dvft0901/apb_sv_project/test/apb_slverr_test.sv"
-`include "/home/dvft0901/apb_sv_project/test/apb_reset_test.sv"
+`include "apb_write_read_test.sv"
+`include "apb_write_test.sv"
+`include "apb_read_test.sv"
+`include "apb_slverr_test.sv"
+`include "apb_reset_test.sv"
 
-`include "/home/dvft0901/apb_sv_project/test/apb_write_read_zerowait_test.sv"
-`include "/home/dvft0901/apb_sv_project/test/apb_write_zerowait_test.sv"
-`include "/home/dvft0901/apb_sv_project/test/apb_read_zerowait_test.sv"
-`include "/home/dvft0901/apb_sv_project/test/apb_slverr_zerowait_test.sv"
-`include "/home/dvft0901/apb_sv_project/test/apb_reset_zerowait_test.sv"
+`include "apb_write_read_zerowait_test.sv"
+`include "apb_write_zerowait_test.sv"
+`include "apb_read_zerowait_test.sv"
+`include "apb_slverr_zerowait_test.sv"
+`include "apb_reset_zerowait_test.sv"
 
 
 
