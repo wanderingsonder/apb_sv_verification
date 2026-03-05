@@ -2,7 +2,7 @@
 
 ## 🔍 Project Overview
 
-This project implements a complete **layered class-based testbench** for verifying an APB3-compliant slave peripheral. The testbench is structured following industry-standard verification methodology principles:
+This project implements a complete **layered class-based testbench** for verifying an APB-compliant slave peripheral. The testbench is structured following industry-standard verification methodology principles:
 
 - **Layered architecture** separating stimulus, checking, and coverage
 - **Constrained-random verification** through a `rand` transaction class
