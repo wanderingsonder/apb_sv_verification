@@ -21,4 +21,3 @@ $display("TIME=%0t Generator %0p\n",$time,tr);
  end
  endtask : run
  endclass
-
