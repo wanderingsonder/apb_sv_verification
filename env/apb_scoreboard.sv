@@ -91,10 +91,6 @@ task compare();
       endtask
    endclass */
 
-
-
-
-
  /*  if (ms.pwrite==1'b0 && ms.pslverr==1'b0) begin //&& part to get all pass valued
       if(ms.prdata==ps.prdata)
          $display("[SCO] [PASS] ms.prdata %0h <=> %0h ps.rdata",ms.prdata,ps.prdata);end
