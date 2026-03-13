@@ -34,5 +34,3 @@ assertion_check: assert property(pready_check);
 endinterface 
 
 //`endif
-
-
