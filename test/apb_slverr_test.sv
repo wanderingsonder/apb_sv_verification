@@ -9,8 +9,7 @@ function new(mailbox gdmbx);
   task run(); 
  repeat(2) begin
  tr =new();
-
-
+          
 tr.randomize() with {tr.paddr== {32{1'b1}};};
 $display("************************************************");
 $display("TIME=%0t Generator %0p\n",$time,tr);
