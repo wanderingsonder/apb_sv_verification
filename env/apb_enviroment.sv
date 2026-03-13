@@ -1,4 +1,4 @@
-class apb_envrionment;
+class apb_environment;
 apb_generator gen;
 apb_driver dvr;
 apb_monitor mon;
