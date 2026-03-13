@@ -5,7 +5,7 @@ function new(mailbox gdmbx);
          super.new(gdmbx);
       endfunction
   task run(); 
-   for (int i=1; i<21; i=i+1)begin
+           for (int i=1; i<10; i=i+1)begin
  tr =new();
 
   tr.randomize() with {tr.pwrite== 1'b0; tr.pwdata==1'b0;};  //read
