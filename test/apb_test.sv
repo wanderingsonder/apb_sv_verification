@@ -1,163 +1,238 @@
-//`ifndef APB_TEST
-//`define APB_TEST
-`include "apb_write_read_test.sv"
-`include "apb_write_test.sv"
-`include "apb_read_test.sv"
-`include "apb_slverr_test.sv"
-`include "apb_reset_test.sv"
-
-`include "apb_write_read_zerowait_test.sv"
-`include "apb_write_zerowait_test.sv"
-`include "apb_read_zerowait_test.sv"
-`include "apb_slverr_zerowait_test.sv"
-`include "apb_reset_zerowait_test.sv"
-
-
-
 class apb_test;
-virtual apb_interface vif;
+
+//--------------------------------
+// Virtual interfaces
+//--------------------------------
 virtual apb_interface dr_vif;
 virtual apb_interface mo_vif;
 virtual apb_interface reset_vif;
-apb_envrionment env;
-apb_generator gen;
 
 
-apb_write_read_test apb_wr_rd;
-apb_slverr_test apb_slverr;
+//--------------------------------
+// Environment
+//--------------------------------
+apb_environment env;
+
+
+//--------------------------------
+// Normal test objects
+//--------------------------------
 apb_write_test apb_wr;
 apb_read_test apb_rd;
+apb_write_read_test apb_wr_rd;
 apb_reset_test apb_rst;
 
-apb_write_read_zerowait_test apb_wr_rd_zw;
-apb_slverr_zerowait_test apb_slverr_zw;
+
+//--------------------------------
+// Zero wait test objects
+//--------------------------------
 apb_write_zerowait_test apb_wr_zw;
 apb_read_zerowait_test apb_rd_zw;
+apb_write_read_zerowait_test apb_wr_rd_zw;
 apb_reset_zerowait_test apb_rst_zw;
 
 
-function new(virtual apb_interface dr_vif,virtual apb_interface mo_vif,virtual apb_interface reset_vif);
-   this.dr_vif=dr_vif;
-   this.mo_vif=mo_vif;
-   this.reset_vif=reset_vif;
-endfunction 
+//--------------------------------
+// Constructor
+//--------------------------------
+function new(
+    virtual apb_interface dr_vif,
+    virtual apb_interface mo_vif,
+    virtual apb_interface reset_vif
+);
+
+    this.dr_vif = dr_vif;
+    this.mo_vif = mo_vif;
+    this.reset_vif = reset_vif;
+
+endfunction
+
+
+
+//--------------------------------
+// Build and Run
+//--------------------------------
 task build_and_run();
-   env=new(dr_vif,mo_vif,reset_vif);
-   begin
-      if ($test$plusargs("apb_write_read_test")) begin
-         $display("time=%0t inside APB_WRITE_READ_TEST",$time);
-        apb_wr_rd=new(env.gdmbx);
-       env.build();
-       env.gen=apb_wr_rd;
-       env.run(); 
-    end 
 
-      if ($test$plusargs("apb_write_test")) begin
-         $display("time=%0t inside APB_WRITE_TEST",$time);
-        apb_wr=new(env.gdmbx);
-       env.build();
-       env.gen=apb_wr;
-       env.run(); 
-    end
-
-      if ($test$plusargs("apb_read_test")) begin
-         $display("time=%0t inside APB_READ_TEST",$time);
-        apb_rd=new(env.gdmbx);
-       env.build();
-       env.gen=apb_rd;
-       env.run(); 
-    end
+env = new(dr_vif, mo_vif, reset_vif);
 
 
-      if ($test$plusargs("apb_slverr_test")) begin
-         $display("time=%0t inside APB_SLVERR_TEST",$time);
-        apb_slverr=new(env.gdmbx);
-       env.build();
-       env.gen=apb_slverr;
-       env.run(); 
-    end
+//--------------------------------
+// WRITE TEST
+//--------------------------------
+if ($test$plusargs("apb_write_test")) begin
 
-     if ($test$plusargs("apb_reset_test")) begin
-         $display("time=%0t inside APB_RESET_TEST",$time);
-        apb_rst=new(env.gdmbx);
-       env.build();
-       env.gen=apb_rst;
-   fork
-#500; reset_vif.rst_n ='0;
-#510; reset_vif.rst_n ='0;
+    $display("Running APB WRITE TEST");
 
-#650; reset_vif.rst_n ='0;
-#680; reset_vif.rst_n ='0;
+    apb_wr = new(env.gdmbx);
 
-#800; reset_vif.rst_n ='0;
-#850; reset_vif.rst_n ='0;
+    env.build();
+    env.gen = apb_wr;
 
-#1000; reset_vif.rst_n ='0;
-#1050; reset_vif.rst_n ='0;
- join_none
- env.run(); 
- end 
+    env.run();
 
-///********* ZERO WAIT TEST ************//
-
-  if ($test$plusargs("apb_write_read_zerowait_test")) begin
-         $display("time=%0t inside APB_WRITE_READ_ZEROWAIT_TEST",$time);
-        apb_wr_rd_zw=new(env.gdmbx);
-       env.build();
-       env.gen=apb_wr_rd_zw;
-       env.run(); 
-    end 
+end
 
 
-      if ($test$plusargs("apb_write_zerowait_test")) begin
-         $display("time=%0t inside APB_WRITE_ZEROWAIT_TEST",$time);
-        apb_wr_zw=new(env.gdmbx);
-       env.build();
-       env.gen=apb_wr_zw;
-       env.run(); 
-    end
+
+//--------------------------------
+// READ TEST
+//--------------------------------
+if ($test$plusargs("apb_read_test")) begin
+
+    $display("Running APB READ TEST");
+
+    apb_rd = new(env.gdmbx);
+
+    env.build();
+    env.gen = apb_rd;
+
+    env.run();
+
+end
 
 
-      if ($test$plusargs("apb_read_zerowait_test")) begin
-         $display("time=%0t inside APB_READ_ZEROWAIT_TEST",$time);
-        apb_rd_zw=new(env.gdmbx);
-       env.build();
-       env.gen=apb_rd_zw;
-       env.run(); 
-    end
+
+//--------------------------------
+// WRITE READ TEST
+//--------------------------------
+if ($test$plusargs("apb_write_read_test")) begin
+
+    $display("Running APB WRITE READ TEST");
+
+    apb_wr_rd = new(env.gdmbx);
+
+    env.build();
+    env.gen = apb_wr_rd;
+
+    env.run();
+
+end
 
 
-      if ($test$plusargs("apb_slverr_zerowait_test")) begin
-         $display("time=%0t inside APB_SLVERR_ZEROWAIT_TEST",$time);
-        apb_slverr_zw=new(env.gdmbx);
-       env.build();
-       env.gen=apb_slverr_zw;
-       env.run(); 
-    end
 
-    if ($test$plusargs("apb_reset_zerowait_test")) begin
-         $display("time=%0t inside APB_RESET_ZEROWAIT_TEST",$time);
-        apb_rst_zw=new(env.gdmbx);
-       env.build();
-       env.gen=apb_rst_zw;
-   fork
-#500; reset_vif.rst_n ='0;
-#510; reset_vif.rst_n ='0;
+//--------------------------------
+// RESET TEST
+//--------------------------------
+if ($test$plusargs("apb_reset_test")) begin
 
-#650; reset_vif.rst_n ='0;
-#680; reset_vif.rst_n ='0;
+    $display("Running APB RESET TEST");
 
-#800; reset_vif.rst_n ='0;
-#850; reset_vif.rst_n ='0;
+    apb_rst = new(env.gdmbx);
 
-#1000; reset_vif.rst_n ='0;
-#1050; reset_vif.rst_n ='0;
- join_none
- env.run(); 
- end 
+    env.build();
+    env.gen = apb_rst;
 
- end
+    fork
+
+        begin
+            #500 reset_vif.rst_n = 0;
+            #20  reset_vif.rst_n = 1;
+        end
+
+        begin
+            #800 reset_vif.rst_n = 0;
+            #20  reset_vif.rst_n = 1;
+        end
+
+        begin
+            #1100 reset_vif.rst_n = 0;
+            #20  reset_vif.rst_n = 1;
+        end
+
+    join_none
+
+    env.run();
+
+end
+
+
+
+//--------------------------------
+// ZERO WAIT WRITE TEST
+//--------------------------------
+if ($test$plusargs("apb_write_zerowait_test")) begin
+
+    $display("Running APB WRITE ZERO WAIT TEST");
+
+    apb_wr_zw = new(env.gdmbx);
+
+    env.build();
+    env.gen = apb_wr_zw;
+
+    env.run();
+
+end
+
+
+
+//--------------------------------
+// ZERO WAIT READ TEST
+//--------------------------------
+if ($test$plusargs("apb_read_zerowait_test")) begin
+
+    $display("Running APB READ ZERO WAIT TEST");
+
+    apb_rd_zw = new(env.gdmbx);
+
+    env.build();
+    env.gen = apb_rd_zw;
+
+    env.run();
+
+end
+
+
+
+//--------------------------------
+// ZERO WAIT WRITE READ TEST
+//--------------------------------
+if ($test$plusargs("apb_write_read_zerowait_test")) begin
+
+    $display("Running APB WRITE READ ZERO WAIT TEST");
+
+    apb_wr_rd_zw = new(env.gdmbx);
+
+    env.build();
+    env.gen = apb_wr_rd_zw;
+
+    env.run();
+
+end
+
+
+
+//--------------------------------
+// ZERO WAIT RESET TEST
+//--------------------------------
+if ($test$plusargs("apb_reset_zerowait_test")) begin
+
+    $display("Running APB RESET ZERO WAIT TEST");
+
+    apb_rst_zw = new(env.gdmbx);
+
+    env.build();
+    env.gen = apb_rst_zw;
+
+    fork
+
+        begin
+            #500 reset_vif.rst_n = 0;
+            #20  reset_vif.rst_n = 1;
+        end
+
+        begin
+            #800 reset_vif.rst_n = 0;
+            #20  reset_vif.rst_n = 1;
+        end
+
+    join_none
+
+    env.run();
+
+end
+
+
 endtask
-endclass
 
-      
+endclass
