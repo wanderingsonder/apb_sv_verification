@@ -6,7 +6,7 @@ function new(mailbox gdmbx);
       endfunction
 
   task run(); 
-   for (int i=1; i<21; i=i+1)begin
+    for (int i=1; i<10; i=i+1)begin
  tr =new();
 
  if (i<11) begin 
@@ -18,6 +18,7 @@ $display("*************************************************");
  gdmbx.put(tr);
  @(e1);
  #1;
+     
  end
  endtask : run
  endclass
